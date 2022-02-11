@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://yabooker.com
+
+# Sitemaps
+Sitemap: https://yabooker.com/sitemap.xml
+Sitemap: https://yabooker.com/server-sitemap.xml
