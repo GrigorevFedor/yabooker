@@ -30,7 +30,7 @@ export default function OrganizerPage({ organizer }) {
 
                     </div>
                     <div className='flex'>
-                        <p>4,9</p>
+                        <p>{organizer.middle_star}</p>
                         <Stars count={5} fullfiled={5} />
                     </div>
                 </div>
@@ -66,15 +66,15 @@ export default function OrganizerPage({ organizer }) {
                             {/* <!-- Selected: "text-indigo-600 border-indigo-600", Not Selected: "text-gray-900 border-transparent" --> */}
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick()} type="button">Активные туры</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Отзывы</button>
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Флот</button>
+                            {/* <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Флот</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Команда</button>
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Истории</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Истории</button> */}
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Прошедшие туры</button>
                         </div>
                     </div>
 
                     <div>
-                        {/* {activeTab == 'ActiveTours' && <ActiveTours />} */}
+                        {activeTab == 'ActiveTours' && <ActiveTours />}
                         {/* {activeTab == 'Reviews' && <Reviews/>}
                         {activeTab == 'Fleet' && <Fleet/>}
                         {activeTab == 'Team' && <Team/>}
@@ -99,14 +99,45 @@ const fetchData = async (url) =>
             organizer: null,
         }))
 
+const fetchDataActive = async (url) =>
+    await API.get(`organizer/${url}/tours-active`)
+        .then(res => ({
+            error: false,
+            tours: res.data,
+        }))
+        .catch(() => ({
+            error: true,
+            tours: null,
+        }))
+
+// export async function getServerSideProps({ params, res }) {
+//     const { slug } = params;
+//     const organizer = await fetchData(slug);
+//     const active = await fetchDataActive(slug);
+//     // const organizer = await fetchData(slug);
+//     console.log(organizer)
+//     if (!organizer) {
+//         return {
+//             notFound: true,
+//         }
+//     }
+//     return {
+//         props: { organizer, active }
+//     }
+// }
+
+
+
 export async function getServerSideProps({ params, res }) {
     const { slug } = params;
-    const organizer = await fetchData(slug);
-    console.log(organizer)
-    if (!organizer) {
-        return {
-            notFound: true,
-        }
-    }
-    return { props: organizer }
+    const [organizerRes, activeRes] = await Promise.all([
+        API.get(`organizer/${slug}/`),
+        API.get(`organizer/${slug}/tours-active`)
+    ]);
+    console.log(organizerRes)
+    // const [organizer, active] = await Promise.all([
+    //     organizerRes.res.data,
+    //     activeRes.res.data
+    // ]);
+    return { props: { organizer, active } };
 }

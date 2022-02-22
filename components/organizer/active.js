@@ -1,9 +1,13 @@
+import { OrganizeTourCard } from '../organizer/tourCard'
+
 export default function ActiveTours({ active }) {
+    if (active.length == 0) {
+        return <OrganizeTourCard blank={true} />
+    }
     return (
         <>
             {active.map(activeTour => (
-                <>
-                </>
+                <OrganizeTourCard tour={activeTour} />
             ))}
         </>
     )
@@ -28,5 +32,6 @@ export async function getServerSideProps({ params, res }) {
             notFound: true,
         }
     }
+    console.log(active)
     return { props: active }
 }
