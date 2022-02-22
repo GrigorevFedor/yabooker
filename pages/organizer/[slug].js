@@ -2,12 +2,14 @@ import Layout from "../../components/core/Layout";
 import ErrorPage from "next/error";
 import API from "../../api";
 import ActiveTours from '../../components/organizer/active'
+import Reviews from '../../components/organizer/reviews'
+import NotActiveTours from '../../components/organizer/notActive'
 import { useState } from "react";
 import { Stars } from '../../components/tours/Reviews'
 
 
 
-export default function OrganizerPage({ organizer }) {
+export default function OrganizerPage({ organizer, active, notActive, comments}) {
     console.log('organizer', organizer)
     if (!organizer) {
         return <ErrorPage statusCode={404} />;
@@ -16,7 +18,7 @@ export default function OrganizerPage({ organizer }) {
 
 
     const handlerClick = (e) => {
-        console.log(e)
+        setActiveTab(e.target.name)
     }
 
     return (
@@ -64,22 +66,22 @@ export default function OrganizerPage({ organizer }) {
                     <div className="border-b border-gray-200">
                         <div className="-mb-px flex px-4 space-x-8" role="tablist">
                             {/* <!-- Selected: "text-indigo-600 border-indigo-600", Not Selected: "text-gray-900 border-transparent" --> */}
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick()} type="button">Активные туры</button>
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Отзывы</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button" name="ActiveTours">Активные туры</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button"  name="Reviews">Отзывы</button>
                             {/* <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Флот</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Команда</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Истории</button> */}
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Прошедшие туры</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button"  name="NotActiveTours">Прошедшие туры</button>
                         </div>
                     </div>
 
                     <div>
-                        {activeTab == 'ActiveTours' && <ActiveTours />}
-                        {/* {activeTab == 'Reviews' && <Reviews/>}
-                        {activeTab == 'Fleet' && <Fleet/>}
+                        {activeTab == 'ActiveTours' && <ActiveTours active={active}/>}
+                        {activeTab == 'Reviews' && <Reviews/>}
+                        {/* {activeTab == 'Fleet' && <Fleet/>}
                         {activeTab == 'Team' && <Team/>}
-                        {activeTab == 'Articles' && <Articles/>}
-                        {activeTab == 'NonActiveTours' && <NonActiveTours/>} */}
+                        {activeTab == 'Articles' && <Articles/>} */}
+                        {activeTab == 'NotActiveTours' && <NotActiveTours notActive={notActive}/>} 
                     </div>
                 </div>
             </div>
@@ -88,56 +90,19 @@ export default function OrganizerPage({ organizer }) {
     )
 }
 
-const fetchData = async (url) =>
-    await API.get(`organizer/${url}/`)
-        .then(res => ({
-            error: false,
-            organizer: res.data,
-        }))
-        .catch(() => ({
-            error: true,
-            organizer: null,
-        }))
-
-const fetchDataActive = async (url) =>
-    await API.get(`organizer/${url}/tours-active`)
-        .then(res => ({
-            error: false,
-            tours: res.data,
-        }))
-        .catch(() => ({
-            error: true,
-            tours: null,
-        }))
-
-// export async function getServerSideProps({ params, res }) {
-//     const { slug } = params;
-//     const organizer = await fetchData(slug);
-//     const active = await fetchDataActive(slug);
-//     // const organizer = await fetchData(slug);
-//     console.log(organizer)
-//     if (!organizer) {
-//         return {
-//             notFound: true,
-//         }
-//     }
-//     return {
-//         props: { organizer, active }
-//     }
-// }
-
-
-
 export async function getServerSideProps({ params, res }) {
     const { slug } = params;
-    const [organizerRes, activeRes] = await Promise.all([
+    const [organizerRes, activeRes, notActiveRes] = await Promise.all([
         API.get(`organizer/${slug}/`),
-        API.get(`organizer/${slug}/tours-active`)
+        API.get(`organizer/${slug}/tours-active`),
+        API.get(`organizer/${slug}/tours-not-active`)
+        // API.get(`organizer/${slug}/comments`)
     ]);
-    console.log(organizerRes)
-    // const [organizer, active] = await Promise.all([
-    //     organizerRes.res.data,
-    //     activeRes.res.data
-    // ]);
-    return { props: { organizer, active } };
+    const [organizer, active, notActive] = await Promise.all([
+        organizerRes.data,
+        activeRes.data.tours,
+        notActiveRes.data.tours,
+        // commentsRes.data.tours
+    ]);
+    return { props: { organizer, active, notActive } };
 }

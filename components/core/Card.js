@@ -20,7 +20,7 @@ export default function Card({
                                  sale,
                                  middle_star
                              }) {
-
+    console.log(url)
     function getName(qty) {
         if (qty === 1 || qty === null || qty === undefined) {
             return "место"
