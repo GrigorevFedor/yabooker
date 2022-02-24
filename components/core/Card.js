@@ -1,26 +1,26 @@
 import Link from 'next/link'
 import moment from 'moment'
 
-import {FaFire, FaPassport} from "react-icons/fa";
+import { FaFire, FaPassport } from "react-icons/fa";
 import ReactCountryFlag from "react-country-flag"
 
-import {covidInfo} from "../../data/covid";
+import { covidInfo } from "../../data/covid";
 
 export default function Card({
-                                 url,
-                                 img,
-                                 title,
-                                 price,
-                                 start_point,
-                                 start_date,
-                                 finish_date,
-                                 places_quantity_left,
-                                 start_country,
-                                 is_new,
-                                 sale,
-                                 middle_star
-                             }) {
-    console.log(url)
+    url,
+    img,
+    title,
+    price,
+    start_point,
+    start_date,
+    finish_date,
+    places_quantity_left,
+    start_country,
+    is_new,
+    sale,
+    middle_star
+}) {
+    console.log('tour', img)
     function getName(qty) {
         if (qty === 1 || qty === null || qty === undefined) {
             return "место"
@@ -44,7 +44,7 @@ export default function Card({
                 return (
                     <div
                         className="flex justify-between px-2 py-1 items-center bg-white rounded-lg mr-2">
-                        <FaPassport/>
+                        <FaPassport />
                         <div className="ml-2">Виза</div>
                     </div>
                 )
@@ -84,9 +84,9 @@ export default function Card({
             <Link href="/tours/[slug]" as={`/tours/${url}`}>
                 <a>
                     <div className="flex flex-col overflow-hidden box-card min-w-min">
-                        <img className="object-cover relative" style={{width: '100%', height: 350}}
-                             src={img}
-                             alt={title}/>
+                        <img className="object-cover relative" style={{ width: '100%', height: 350 }}
+                            src={img}
+                            alt={title} />
                         <div className="absolute top-0 left-0 p-4 flex justify-start w-full">
                             {is_new === true || sale !== 0 ?
                                 <div className="flex justify-between px-2 py-1 items-center bg-red-600 rounded-lg mr-2 text-white ring-4 ring-red-500 ring-opacity-50">
@@ -94,7 +94,7 @@ export default function Card({
                                 </div>
                                 : <div
                                     className="flex justify-between px-2 py-1 items-center bg-red-600 rounded-lg mr-2 text-white ring-4 ring-red-500 ring-opacity-50">
-                                    <FaFire/>
+                                    <FaFire />
                                     <p className="ml-2">New</p>
                                 </div>
                             }

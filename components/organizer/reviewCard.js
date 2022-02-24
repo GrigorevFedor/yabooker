@@ -1,6 +1,9 @@
-export const OrganizeReviewCard = ({ }) => {
-    return (
-        <>
-        </>
-    )
+export const ReviewCard = ({ review, blank = '' }) => {
+    if (blank != '') {
+        return (
+            <>
+                {blank}
+            </>
+        )
+    }
 }

@@ -4,10 +4,11 @@ import API from "../../api";
 import ToursFilter from "../../components/tour/Filters";
 
 
-export default function ToursPage({tours}) {
+export default function ToursPage({ tours }) {
     if (!tours) {
-        return <ErrorPage statusCode={404}/>;
+        return <ErrorPage statusCode={404} />;
     }
+    console.log('tours', tours)
     return (
         <Layout
             title={'Туры на парусной яхте от Yabooker'}
@@ -18,7 +19,7 @@ export default function ToursPage({tours}) {
                     <h1 className="w-full text-center text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none">
                         Путешествия
                     </h1>
-                    <ToursFilter tours={tours}/>
+                    <ToursFilter tours={tours} />
                 </div>
             </div>
         </Layout>
@@ -43,5 +44,6 @@ export async function getServerSideProps() {
             notFound: true,
         }
     }
-    return {props: tours}
+    console.log('fetched tours', tours)
+    return { props: tours }
 }

@@ -9,7 +9,7 @@ import { Stars } from '../../components/tours/Reviews'
 
 
 
-export default function OrganizerPage({ organizer, active, notActive, comments}) {
+export default function OrganizerPage({ organizer, active, notActive, comments }) {
     console.log('organizer', organizer)
     if (!organizer) {
         return <ErrorPage statusCode={404} />;
@@ -38,7 +38,7 @@ export default function OrganizerPage({ organizer, active, notActive, comments})
                 </div>
                 <div className='w-2/3'>
                     <div className=''>
-                        <h2>
+                        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none">
                             {`${organizer.user.first_name} ${organizer.user.last_name}`}
                         </h2>
                         <p>
@@ -50,16 +50,16 @@ export default function OrganizerPage({ organizer, active, notActive, comments})
                         </p>
                         <div className='flex'>
                             <div className=''>
-                                <p>5</p>
-                                <p>Лет</p>
+                                <p className="block font-extrabold text-3xl">5</p>
+                                <p className="block">Лет</p>
                             </div>
                             <div className=''>
-                                <p>{organizer.tours_count}</p>
-                                <p>Туров</p>
+                                <p className="block font-extrabold text-3xl">{organizer.tours_count}</p>
+                                <p className="block">Туров</p>
                             </div>
                             <div className=''>
-                                <p>112</p>
-                                <p>Путешественников</p>
+                                <p className="block font-extrabold text-3xl">112</p>
+                                <p className="block">Путешественников</p>
                             </div>
                         </div>
                     </div>
@@ -67,21 +67,21 @@ export default function OrganizerPage({ organizer, active, notActive, comments})
                         <div className="-mb-px flex px-4 space-x-8" role="tablist">
                             {/* <!-- Selected: "text-indigo-600 border-indigo-600", Not Selected: "text-gray-900 border-transparent" --> */}
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button" name="ActiveTours">Активные туры</button>
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button"  name="Reviews">Отзывы</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button" name="Reviews">Отзывы</button>
                             {/* <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Флот</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Команда</button>
                             <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" type="button">Истории</button> */}
-                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button"  name="NotActiveTours">Прошедшие туры</button>
+                            <button className="text-gray-900 border-transparent flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium" onClick={handlerClick} type="button" name="NotActiveTours">Прошедшие туры</button>
                         </div>
                     </div>
 
                     <div>
-                        {activeTab == 'ActiveTours' && <ActiveTours active={active}/>}
-                        {activeTab == 'Reviews' && <Reviews/>}
+                        {activeTab == 'ActiveTours' && <ActiveTours active={active} />}
+                        {activeTab == 'Reviews' && <Reviews reviews={[]} />}
                         {/* {activeTab == 'Fleet' && <Fleet/>}
                         {activeTab == 'Team' && <Team/>}
                         {activeTab == 'Articles' && <Articles/>} */}
-                        {activeTab == 'NotActiveTours' && <NotActiveTours notActive={notActive}/>} 
+                        {activeTab == 'NotActiveTours' && <NotActiveTours notActive={notActive} />}
                     </div>
                 </div>
             </div>
