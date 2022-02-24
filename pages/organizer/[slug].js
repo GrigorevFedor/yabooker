@@ -28,8 +28,10 @@ export default function OrganizerPage({ organizer, active, notActive, comments }
         >
             <div className='flex'>
                 <div className='w-1/3'>
-                    <div className=''>
-
+                    <div className='w-64 h-64 rounded-full border-4 border-yellow-200/75 overflow-hidden box-border'>
+                        <img className="object-cover relative" style={{ width: '100%', height: 318 }}
+                                src={`https://api.yabooker.com/${organizer.img}`}
+                                alt={organizer.title} />
                     </div>
                     <div className='flex'>
                         <p>{organizer.middle_star}</p>
