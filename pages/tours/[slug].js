@@ -42,7 +42,7 @@ export default function TourDetailPage({ tour }) {
                     url={tour.url}
                     title={tour.title}
                     description={tour.description}
-                    price={tour.price_rub}
+                    price={tour.price}
                     start_country={tour.start_country}
                     start_point={tour.start_point}
                     marina={tour.marina}
@@ -157,7 +157,7 @@ export default function TourDetailPage({ tour }) {
                     title={tour.title}
                     start_date={tour.start_date}
                     finish_date={tour.finish_date}
-                    price={tour.price_rub}
+                    price={tour.price}
                     start_point={tour.start_point}
                     qty={tour.places_quantity_left}
                 />
@@ -185,7 +185,7 @@ export async function getServerSideProps({ params, res }) {
     const { slug } = params;
     const tour = await fetchData(slug);
     console.log(tour)
-    if (!tour) {
+    if (tour.error) {
         return {
             notFound: true,
         }
